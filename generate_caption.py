@@ -5,6 +5,11 @@ Usage:
     python generate_caption.py <YOUTUBE_URL> <OUTPUT_TXT> [--prompt "custom instructions"]
     python generate_caption.py <YOUTUBE_URL> <OUTPUT_TXT> --model gemini-2.0-flash
 
+Naming convention: save the caption next to its reel with the same stem, so
+generate_schedule_csv.py pairs them automatically, e.g. caption for
+reels/reel1.mp4 -> reels/reel1.txt:
+    python generate_caption.py <EPISODE_URL> reels/reel1.txt
+
 The YouTube URL is passed directly to Gemini as a file_data/file_uri part --
 Gemini natively fetches public YouTube videos, so we do NOT download the
 1-2 hr episode first.

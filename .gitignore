@@ -8,3 +8,5 @@ instruction*.md
 /Reels
 schedule.csv
 caption.txt
+pipeline.sh
+pipeline.md

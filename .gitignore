@@ -4,3 +4,7 @@ __pycache__/
 errors.log
 
 instruction*.md
+
+/Reels
+schedule.csv
+caption.txt

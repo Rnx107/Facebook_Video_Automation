@@ -64,13 +64,27 @@ def reel_sort_key(p: Path) -> tuple:
 
 
 def find_caption_for(video: Path) -> Path | None:
-    """Caption for reel1.mp4 is reel1.txt: same folder first, then cwd."""
+    """Find a caption file for a video.
+
+    Lookup order:
+      1. Per-video caption: reel1.mp4 → reel1.txt (same folder)
+      2. Per-video caption in cwd: reel1.txt
+      3. Shared caption: caption.txt in the video's folder
+      4. Shared caption: caption.txt in cwd
+    """
     same_dir = video.parent / f"{video.stem}.txt"
     if same_dir.is_file():
         return same_dir
     cwd_match = Path.cwd() / f"{video.stem}.txt"
     if cwd_match.is_file():
         return cwd_match
+    # Shared caption.txt — one description for all videos in the folder.
+    shared_dir = video.parent / "caption.txt"
+    if shared_dir.is_file():
+        return shared_dir
+    shared_cwd = Path.cwd() / "caption.txt"
+    if shared_cwd.is_file():
+        return shared_cwd
     return None
 
 

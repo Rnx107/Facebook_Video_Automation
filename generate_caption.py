@@ -58,7 +58,7 @@ Rules:
 {custom_instruction}
 """
 
-DEFAULT_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash")
+DEFAULT_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 
 YOUTUBE_RE = re.compile(
     r"^(https?://)?(www\.|m\.|music\.)?(youtube\.com/(watch\?.*v=|shorts/|live/|embed/)|youtu\.be/)[\w\-]{6,}",
@@ -120,14 +120,13 @@ def generate_caption(youtube_url: str, custom_instruction: str | None, model: st
     try:
         response = client.models.generate_content(
             model=model,
-            contents=types.Content(
-                parts=[
-                    types.Part(
-                        file_data=types.FileData(file_uri=youtube_url.strip())
-                    ),
-                    types.Part(text=prompt),
-                ]
-            ),
+            contents=[
+                types.Part.from_uri(
+                    file_uri=youtube_url.strip(),
+                    mime_type="video/mp4",
+                ),
+                prompt,
+            ],
         )
     except NameError:
         raise
